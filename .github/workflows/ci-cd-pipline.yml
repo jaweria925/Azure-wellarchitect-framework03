@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        service: [delivery, scheduler, ingestion, package, workflow]  # list all microservices
+        service: [delivery, dronescheduler, ingestion, package, workflow]  # list all microservices
 
     env:
       ACR_NAME: ecommercewebsite
