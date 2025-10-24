@@ -14,7 +14,7 @@ jobs:
         service: [delivery, scheduler, ingestion, package, workflow]  # list all microservices
 
     env:
-      ACR_NAME: fabricatedmicroservicesacr
+      ACR_NAME: ecommercewebsite
       RESOURCE_GROUP: fabricated-microservices-rg
       IMAGE_TAG: ${{ github.sha }}  # Use commit SHA as image tag
 
