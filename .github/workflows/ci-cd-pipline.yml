@@ -9,10 +9,6 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        service: [delivery, dronescheduler, ingestion, package, workflow]  # list all microservices
-
     env:
       ACR_NAME: ecommercewebsite
       RESOURCE_GROUP: fabricated-microservices-rg
@@ -32,8 +28,8 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t $ACR_NAME.azurecr.io/dronescheduler:$IMAGE_TAG -f dronescheduler/Dockerfile ./src
+          docker build -t $ACR_NAME.azurecr.io/shipping:$IMAGE_TAG ./src/shipping/delivery
           
       - name: Push Docker Image
         run: |
-          docker push $ACR_NAME.azurecr.io/${{ matrix.service }}:$IMAGE_TAG
+          docker push $ACR_NAME.azurecr.io/shipping:$IMAGE_TAG
