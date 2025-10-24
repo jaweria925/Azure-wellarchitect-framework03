@@ -32,7 +32,8 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t $ACR_NAME.azurecr.io/${{ matrix.service }}:$IMAGE_TAG ./src ${{ matrix.service }}/
+          docker build -t $ACR_NAME.azurecr.io/dronescheduler:$IMAGE_TAG -f dronescheduler/Dockerfile ./src
+          docker build -t $ACR_NAME.azurecr.io/${{ matrix.service }}:$IMAGE_TAG -f ${{ matrix.service }}/Dockerfile ./${{ matrix.service }}
 
       - name: Push Docker Image
         run: |
