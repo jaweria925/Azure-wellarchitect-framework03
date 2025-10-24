@@ -1,0 +1,39 @@
+name: Build and Push Docker Images to ACR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        service: [delivery, scheduler, ingestion, package, workflow]  # list all microservices
+
+    env:
+      ACR_NAME: fabricatedmicroservicesacr
+      RESOURCE_GROUP: fabricated-microservices-rg
+      IMAGE_TAG: ${{ github.sha }}  # Use commit SHA as image tag
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure ACR Login
+        run: az acr login --name $ACR_NAME
+
+      - name: Build Docker Image
+        run: |
+          docker build -t $ACR_NAME.azurecr.io/${{ matrix.service }}:$IMAGE_TAG ./src/shipping/${{ matrix.service }}/
+
+      - name: Push Docker Image
+        run: |
+          docker push $ACR_NAME.azurecr.io/${{ matrix.service }}:$IMAGE_TAG
