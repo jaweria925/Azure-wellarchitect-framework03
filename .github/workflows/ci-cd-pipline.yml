@@ -32,7 +32,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t $ACR_NAME.azurecr.io/${{ matrix.service }}:$IMAGE_TAG ./src/shipping/${{ matrix.service }}/
+          docker build -t $ACR_NAME.azurecr.io/${{ matrix.service }}:$IMAGE_TAG ./src ${{ matrix.service }}/
 
       - name: Push Docker Image
         run: |
