@@ -9,8 +9,12 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        service: [delivey, dronescheduler, ingestion, package, workflow]
+
     env:
-      ACR_NAME: ecommercewebsite
+      ACR_NAME: fericateecr
       RESOURCE_GROUP: fabricated-microservices-rg
       IMAGE_TAG: ${{ github.sha }}  # Use commit SHA as image tag
 
@@ -28,8 +32,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t $ACR_NAME.azurecr.io/shipping:$IMAGE_TAG ./src/shipping/delivery
-          
+          docker build -t $ACR_NAME.azurecr.io/${{ matrix.service }}:$IMAGE_TAG ./src/${{ matrix.service }}
       - name: Push Docker Image
         run: |
-          docker push $ACR_NAME.azurecr.io/shipping:$IMAGE_TAG
+          docker push $ACR_NAME.azurecr.io/${{ matrix.service }}:$IMAGE_TAG
