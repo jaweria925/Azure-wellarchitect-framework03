@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        service: [delivey, dronescheduler, ingestion, package, workflow]
+        service: [delivery, dronescheduler, ingestion, package, workflow]
 
     env:
       ACR_NAME: fericateecr
